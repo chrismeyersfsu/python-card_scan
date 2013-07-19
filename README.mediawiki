@@ -1,18 +1,25 @@
+== Credit ==
+Code mostly taken from <a href="https://github.com/YenTheFirst/card_scan">card_scan</a> by YenTheFirst. Chose not fork because of the amount of code change.
 == Overview ==
+<p>Magic the Gathering card recognition for purposes of quickly digitizing your inventory.</p>
 
-<p>Magic the Gathering card recognition.</p>
-Recognition steps:
-* Capture background
-* Recognize motion
-* When motion stops, look for card
-* Card recognized, search for match
-*; Press 'b' to save card to csv file
+=== Features ===
+
+* Uses image recognition software <b>opencv</b> to quickly identify Magic the Gathering Cards
+* Outputs recognized cards in <b>Magic Workstation</b> csv format
+* Says the name of the card using Text-to-Speech <b>festival</b>
+* Runs in real-time
+
+== Screenshots ==
 
 == Dependency ==
+* a camera
 * python, opencv, numpy, SQLAlchemy, Flask, elixer
 <pre>sudo apt-get install python-opencv
 sudo pip install -r requirements.txt
 </pre>
+* festival
+<pre>sudo apt-get install festival</pre>
 === MTG Set Images ===
 * <a href="http://ark42.com/mtg/gathererdownloader/">Gatherer Downloader</a>
 <pre>apt-get install wine
@@ -20,22 +27,68 @@ unzip GathererDownloader*.zip</pre>
 
 == Setup ==
 
+One variable is required to be set that denotes the location of the Magic the Gathering cards you wish to index against.
+;<code>BASE_SET_DIR/</code>
+:variable in <a href="test.py">test.py</a> root directory of the images.
+
 === MTG Set Images ===
 
-The matching algorithm is designed to find a matching card of a taken image. Thus, we need a database of cards to match against.
+<p>The matching algorithm is designed to find a matching card of a taken image. Thus, we need a database of cards to match against.</p>
+
+==== File Structure ====
+
+;<code>BASE_SET_DIR/</code>
+:variable in <a href="test.py">test.py</a> root directory of the images.
+;<code>BASE_SET_DIR/<set_name_abbreviation></code>
+:where <i>set_name_abbreviation</i> is a unique identifier for the set comprised of letters and numbers. 
+;<code>BASE_SET_DIR/<set_name_abbreviation>/<card_name>.full.jpg</code>
+:where <i>card_name</i> is unique within a given set. Note that all the cards end in full.jpg
+
+==== Gatherer Downloader ====
+<p>Automates downloading of full Magic the Gathering sets, both card listings and card images.</p>
+<hr />
+<p>Start it</p>
 <pre>wine ./GathererDownloader.exe</pre>
-<img src="doc/screenshots/gatherer_downloader/download_card_db.png">
-
-<code>setup.py</code><br />
-<pre>
-BASE_SET_DIR = ""
-SET_CACHE_FILE = ""
-CSV_FILE = ""
-</pre>
-=== 
-<code></code> is the directory that contains the cards for which you wish to match against.
-
+<p>Download the card database for the sets you wish to recognize/inventory. Note the "And all Sets After" option box for easily downloading multiple sets.</p>
+<img src="doc/screenshots/gatherer_downloader/download_card_db.png" />
+<p>Now we will get the images associated with the cards but first, because we have a particular file directory structure, we need to ensure the naming convention is correct.</p>
+<p>Click on <b>Options -> Image Formats</b>. Select <b>Magic Workstation</b> from the dropdown box and click <b>Load Defaults</b>. Then click <b>Ok</b> to save.</p>
+<img src="doc/screenshots/gatherer_downloader/image_formats.png" />
+<p>Click <b>Download Card Images</b> and select the directory you have set <code>BASE_SET_DIR</code>.</p>
 
 == Run ==
 <pre>./test.py</pre>
+Note that matches cards are appended to the csv file configured via <code>CSV_FILE</code> in the file <a href="test.py">test.py</a> 
+=== Controls ===
+Note that the background should be a solid color. I used a piece of white printer paper.
+* r
+*; refresh the background
+* b
+*; save found match to csv database
+
+
+== Common Problems ==
+<a href="test.py">test.py</a> invalid camera.
+<pre>OpenCV Error: Bad argument (Array should be CvMat or IplImage) in cvGetSize, file /build/buildd/opencv-2.3.1/modules/core/src/array.cpp, line 1238
+Traceback (most recent call last):
+  File "./test.py", line 87, in <module>
+    capture = scanCard.check_for_card()
+  File "/home/meyers/Dropbox/Code/python_card_scan/scan_card.py", line 173, in check_for_card
+    self.grab_frame()
+  File "/home/meyers/Dropbox/Code/python_card_scan/scan_card.py", line 119, in grab_frame
+    frame_gray = to_gray_image(frame)
+  File "/home/meyers/Dropbox/Code/python_card_scan/cv_utils.py", line 73, in to_gray_image
+    gray = create_dummy_image(img)
+  File "/home/meyers/Dropbox/Code/python_card_scan/cv_utils.py", line 65, in create_dummy_image
+    return cv.CreateImage(cv.GetSize(img), 8,1)
+cv2.error: Array should be CvMat or IplImage
+</pre>
+
+<p>Adding new magic sets and cards to the database to match against may require deleting the analyzed cache <code>SET_CACHE_FILE</code> in <a href="test.py">test.py</a></p>
+
+<p></p>
+
+
+
+
 
