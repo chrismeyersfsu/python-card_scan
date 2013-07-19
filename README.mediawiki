@@ -1,0 +1,41 @@
+== Overview ==
+
+<p>Magic the Gathering card recognition.</p>
+Recognition steps:
+* Capture background
+* Recognize motion
+* When motion stops, look for card
+* Card recognized, search for match
+*; Press 'b' to save card to csv file
+
+== Dependency ==
+* python, opencv, numpy, SQLAlchemy, Flask, elixer
+<pre>sudo apt-get install python-opencv
+sudo pip install -r requirements.txt
+</pre>
+=== MTG Set Images ===
+* <a href="http://ark42.com/mtg/gathererdownloader/">Gatherer Downloader</a>
+<pre>apt-get install wine
+unzip GathererDownloader*.zip</pre>
+
+== Setup ==
+
+=== MTG Set Images ===
+
+The matching algorithm is designed to find a matching card of a taken image. Thus, we need a database of cards to match against.
+<pre>wine ./GathererDownloader.exe</pre>
+<img src="doc/screenshots/gatherer_downloader/download_card_db.png">
+
+<code>setup.py</code><br />
+<pre>
+BASE_SET_DIR = ""
+SET_CACHE_FILE = ""
+CSV_FILE = ""
+</pre>
+=== 
+<code></code> is the directory that contains the cards for which you wish to match against.
+
+
+== Run ==
+<pre>./test.py</pre>
+
