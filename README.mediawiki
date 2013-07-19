@@ -56,7 +56,7 @@ One variable is required to be set that denotes the location of the Magic the Ga
 <img src="doc/screenshots/gatherer_downloader/image_formats.png" />
 <p>Click <b>Download Card Images</b> and select the directory you have set <code>BASE_SET_DIR</code>.</p>
 
-== Run ==
+== Running ==
 <pre>./test.py</pre>
 Note that matches cards are appended to the csv file configured via <code>CSV_FILE</code> in the file <a href="test.py">test.py</a> 
 === Controls ===
