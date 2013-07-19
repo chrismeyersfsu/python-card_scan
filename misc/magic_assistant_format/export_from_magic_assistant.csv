@@ -1,0 +1,2 @@
+NAME,ID,COST,TYPE,POWER,TOUGHNESS,ORACLE,SET,RARITY,CTYPE,COUNT,LOCATION,OWNERSHIP,COMMENT,PRICE,COST,DBPRICE,RATING,ARTIST,COLLNUM,SPECIAL,FORTRADECOUNT,LANG,TEXT,OWN_COUNT,OWN_UNIQUE,ERROR
+Alaborn Cavalier,243435,{2}{W}{W},Creature - Human Knight,2,2,"Whenever Alaborn Cavalier attacks, you may tap target creature.",Duel Decks: Knights vs. Dragons,Uncommon,mono,1,Collections/main,true,,0.0,{2}{W}{W},0.0,3.294,Kev Walker,18,,0,,"Whenever Alaborn Cavalier attacks, you may tap target creature.",1,1,
